@@ -21,6 +21,7 @@
 #include <QDateTime>
 #include <QTableWidget>
 #include <QHeaderView>
+#include <QRegularExpression>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
 {
@@ -112,14 +113,18 @@ QWidget* MainWindow::buildAesTab()
     m_aesOutput->setReadOnly(true);
     auto* bE = new QPushButton("Зашифровать");
     auto* bD = new QPushButton("Расшифровать");
+    auto* bSwap = new QPushButton("↑ Результат во вход");
     auto* row = new QHBoxLayout; row->addWidget(bE); row->addWidget(bD);
+    auto* row2 = new QHBoxLayout; row2->addWidget(bSwap);
     l->addWidget(new QLabel("Ключ (до 16 байт):")); l->addWidget(m_aesKey);
     l->addWidget(new QLabel("Вход:")); l->addWidget(m_aesInput);
     l->addLayout(row);
+    l->addLayout(row2);
     l->addWidget(new QLabel("Результат:")); l->addWidget(m_aesOutput);
     l->addStretch();
     connect(bE, &QPushButton::clicked, this, &MainWindow::onAesEncrypt);
     connect(bD, &QPushButton::clicked, this, &MainWindow::onAesDecrypt);
+    connect(bSwap, &QPushButton::clicked, this, [this]{ m_aesInput->setText(m_aesOutput->text().trimmed()); });
     return w;
 }
 
@@ -149,8 +154,8 @@ QWidget* MainWindow::buildNewtonTab()
     info->setTextFormat(Qt::RichText);
     auto* form = new QFormLayout;
     m_newtonX0 = new QDoubleSpinBox; m_newtonX0->setRange(-1e6, 1e6); m_newtonX0->setValue(1.5);
-    m_newtonEps = new QDoubleSpinBox; m_newtonEps->setDecimals(10);
-    m_newtonEps->setRange(1e-12, 1.0); m_newtonEps->setValue(1e-9);
+    m_newtonEps = new QLineEdit; m_newtonEps->setText("1e-9");
+    m_newtonEps->setPlaceholderText("1e-9 .. 1, можно 4.444e-07");
     form->addRow("x0:", m_newtonX0);
     form->addRow("eps:", m_newtonEps);
     m_newtonOut = new QLineEdit; m_newtonOut->setReadOnly(true);
@@ -307,10 +312,17 @@ void MainWindow::pushTableRow(const QString& cmd, const QString& resp)
 void MainWindow::onRegister() { sendCommand(QString("REGISTER|%1|%2").arg(m_login->text().trimmed(), m_pass->text())); }
 void MainWindow::onLogin() { sendCommand(QString("AUTH|%1|%2").arg(m_login->text().trimmed(), m_pass->text())); }
 void MainWindow::onAesEncrypt() { sendCommand(QString("AES_ENCRYPT|%1|%2").arg(m_aesKey->text(), m_aesInput->text())); }
-void MainWindow::onAesDecrypt() { sendCommand(QString("AES_DECRYPT|%1|%2").arg(m_aesKey->text(), m_aesInput->text())); }
+void MainWindow::onAesDecrypt() {
+    QString hex = m_aesInput->text().trimmed().remove(QRegularExpression("\\s+")).toLower();
+    if (hex.isEmpty()) { QMessageBox::warning(this, "Ошибка", "Вход пуст."); return; }
+    sendCommand(QString("AES_DECRYPT|%1|%2").arg(m_aesKey->text(), hex));
+}
 void MainWindow::onSha1() { sendCommand("SHA1|" + m_shaInput->text()); }
 void MainWindow::onNewton() {
-    sendCommand(QString("NEWTON|%1|%2").arg(m_newtonX0->value()).arg(m_newtonEps->value()));
+    bool ok = false;
+    double eps = m_newtonEps->text().trimmed().replace(',', '.').toDouble(&ok);
+    if (!ok) { QMessageBox::warning(this, "Ошибка", "eps: нужно число вида 1e-9."); return; }
+    sendCommand(QString("NEWTON|%1|%2").arg(m_newtonX0->value()).arg(eps, 0, 'g', 12));
 }
 void MainWindow::onAudioEmbed()
 {
