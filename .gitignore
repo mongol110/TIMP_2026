@@ -9,3 +9,5 @@ release/
 *.log
 .vs/
 build/
+# Office lock files
+~$*
