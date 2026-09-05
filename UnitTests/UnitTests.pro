@@ -5,4 +5,4 @@ TARGET = UnitTests
 TEMPLATE = app
 SOURCES += tst_tests.cpp ../EchoServer/functionsforserver.cpp
 HEADERS += ../EchoServer/functionsforserver.h ../EchoServer/dataBase.h
-# Без OpenSSL: AES и SHA1 реализованы вручную.
+LIBS += -lssl -lcrypto

@@ -9,6 +9,7 @@ RUN echo 'Acquire::Retries "5"; Acquire::http::Timeout "30";' > /etc/apt/apt.con
     build-essential \
     make \
     qt6-base-dev \
+    libssl-dev \
     libqt6network6 \
     libqt6sql6 \
     libqt6sql6-sqlite \

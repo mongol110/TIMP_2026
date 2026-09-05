@@ -6,4 +6,4 @@ TARGET = EchoServer
 TEMPLATE = app
 SOURCES += main.cpp mytcpserver.cpp functionsforserver.cpp
 HEADERS += mytcpserver.h functionsforserver.h dataBase.h
-# Криптография вручную, без OpenSSL.
+LIBS += -lssl -lcrypto

@@ -1,4 +1,5 @@
 find_package(Qt6 COMPONENTS Core Network Sql Test REQUIRED)
+find_package(OpenSSL REQUIRED)
 add_executable(UnitTests tst_tests.cpp ../EchoServer/functionsforserver.cpp)
-target_link_libraries(UnitTests PRIVATE Qt6::Core Qt6::Network Qt6::Sql Qt6::Test)
+target_link_libraries(UnitTests PRIVATE Qt6::Core Qt6::Network Qt6::Sql Qt6::Test OpenSSL::SSL OpenSSL::Crypto)
 add_test(NAME UnitTests COMMAND UnitTests)
