@@ -9,7 +9,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 COMPONENTS Core Network Sql Gui Test Widgets REQUIRED)
-find_package(OpenSSL REQUIRED)
 
 add_subdirectory(EchoServer)
 add_subdirectory(Client)

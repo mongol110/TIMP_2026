@@ -6,9 +6,9 @@
 ## 2. Что делает проект
 - TCP-сервер (Qt6, порт 34944) обслуживает **несколько клиентов одновременно**.
 - Авторизация и регистрация (`REGISTER|`, `AUTH|`), пароли хранятся как SHA1(login:pass).
-- Функционал:
-  - `SHA1|data` — хеш SHA1 (40 hex).
-  - `AES_ENCRYPT|key|text` / `AES_DECRYPT|key|hex` — AES-128-CBC (OpenSSL EVP, IV=0).
+- Функционал (всё вручную, без OpenSSL/QCryptographicHash):
+  - `SHA1|data` — хеш SHA1 вручную по FIPS 180-4 (40 hex).
+  - `AES_ENCRYPT|key|text` / `AES_DECRYPT|key|hex` — AES-128 вручную по FIPS 197 (S-box, KeyExpansion, CBC IV=0, PKCS7).
   - `NEWTON|x0|eps` — корень `x^3-x-2=0` методом Ньютона.
   - `AUDIO_EMBED|b64wav|msg` / `AUDIO_EXTRACT|b64wav` — LSB-стего в WAV.
 - SQLite в синглтоне `DataBase`: таблицы `users`, `logs`.
