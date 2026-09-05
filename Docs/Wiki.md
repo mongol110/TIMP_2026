@@ -40,3 +40,13 @@ NEWTON|1.5|1e-9         -> 1.5213797068
 
 ![UseCase](diagrams/usecase.png)
 ![ClassDiagram](diagrams/classdiagram.png)
+
+## 8. Скриншоты рабочего приложения
+
+![Auth](screenshots/01-auth-tab.png)
+![AES encrypt](screenshots/02-aes-encrypt.png)
+![AES decrypt](screenshots/03-aes-decrypt.png)
+![SHA1](screenshots/04-sha1-tab.png)
+![Newton](screenshots/05-newton-tab.png)
+![Audio](screenshots/06-audio-tab.png)
+![Server log](screenshots/07-server-log.png)
