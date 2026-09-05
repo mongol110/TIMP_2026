@@ -182,7 +182,10 @@ static void aesDecryptBlock(const uint8_t in[16], uint8_t out[16], const uint8_t
 static QByteArray aesMakeKey(const QString& key)
 {
     QByteArray k = key.toUtf8();
-    k.resize(16);
+    // resize() не зануляет новые байты — добиваем нулями явно,
+    // иначе encrypt и decrypt получат разный мусор в хвосте ключа.
+    if (k.size() > 16) k.resize(16);
+    else if (k.size() < 16) k.append(QByteArray(16 - k.size(), '\0'));
     return k;
 }
 
