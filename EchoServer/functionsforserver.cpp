@@ -169,12 +169,12 @@ static void aesDecryptBlock(const uint8_t in[16], uint8_t out[16], const uint8_t
     uint8_t s[16];
     for (int i = 0; i < 16; ++i) s[i] = in[i];
     aesAddRoundKey(s, rk + 160);
+    aesInvShiftRows(s); aesInvSubBytes(s);
     for (int round = 9; round >= 1; --round) {
-        aesInvShiftRows(s); aesInvSubBytes(s);
         aesAddRoundKey(s, rk + round * 16);
         aesInvMixColumns(s);
+        aesInvShiftRows(s); aesInvSubBytes(s);
     }
-    aesInvShiftRows(s); aesInvSubBytes(s);
     aesAddRoundKey(s, rk);
     for (int i = 0; i < 16; ++i) out[i] = s[i];
 }
