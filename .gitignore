@@ -8,3 +8,4 @@ release/
 *.db
 *.log
 .vs/
+build/
