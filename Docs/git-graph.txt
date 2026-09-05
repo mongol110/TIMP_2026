@@ -1,0 +1,13 @@
+* bca4495 (HEAD -> main, origin/main) docs: README by template with placeholders
+* 9341f3b feat(server): newton prints 15 decimals
+* c945be4 fix(docker): drop /app volume shadowing rebuilt binary
+* da16a30 fix(win): OpenSSL paths from bundled MinGW for local build
+* 6bc0061 revert AES to OpenSSL EVP, keep manual SHA1
+* c4f0710 revert(client): eps back to spinbox
+* 92c7fef fix(client): eps as text for e-notation, aes swap button, hex trim
+* 8a46d09 feat(client): login flag in status bar
+* a183896 fix: explicit zero-padding of AES key (resize leaves garbage)
+* 488e9cb fix: correct InvCipher order in aesDecryptBlock
+* aa14174 chore: untrack local Qt build dir
+* 1ea098e feat: manual AES-128 and SHA1 without libs, drop OpenSSL
+* d4f5066 (origin/feature/server-auth, origin/feature/docs-tests, origin/feature/client-gui, origin/develop, feature/server-auth, feature/docs-tests, feature/client-gui, develop) feat: audio server+client base (AES/SHA1/Newton/WAV)

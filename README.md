@@ -57,8 +57,8 @@ TIMP_AES_AUDIO/
 │   ├── test-plan.xls         # Тест-план + чек-лист
 │   ├── test-cases.xls        # TestCase + дефекты
 │   └── diagrams/             # UML диаграммы (PlantUML)
-│       ├── usecase.puml      # UseCase диаграмма
-│       └── classdiagram.puml # Диаграмма классов
+│       ├── usecase.puml/.png/.svg      # UseCase диаграмма
+│       └── classdiagram.puml/.png/.svg # Диаграмма классов
 ├── Dockerfile
 └── docker-compose.yml
 ```

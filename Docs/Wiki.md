@@ -35,3 +35,8 @@ NEWTON|1.5|1e-9         -> 1.5213797068
 
 ## 6. Сборка и запуск
 См. README.md. Docker: `docker compose up --build`.
+
+## 7. Диаграммы
+
+![UseCase](diagrams/usecase.png)
+![ClassDiagram](diagrams/classdiagram.png)
