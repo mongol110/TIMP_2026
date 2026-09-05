@@ -52,10 +52,10 @@ TIMP_AES_AUDIO/
 ├── Docs/                     # Wiki, ТЗ, тесты (без doxygen)
 │   ├── Wiki.md               # Описание, протокол, сборка
 │   ├── git-structure.md      # Ветки и схема git
-│   ├── spec-requirements.md  # Спецификация требований (FR1–10)
 │   ├── test-strategy.md      # Стратегия тестирования
-│   ├── test-plan.xls         # Тест-план + чек-лист
-│   ├── test-cases.xls        # TestCase + дефекты
+│   ├── TestCase-дефект.xlsx    # Тест-план + чек-лист + TestCase + дефекты
+│   ├── Спецификация требований.docx  # ТЗ (F/NF/DB)
+│   ├── git-graph.txt           # Граф веток для отчёта
 │   └── diagrams/             # UML диаграммы (PlantUML)
 │       ├── usecase.puml/.png/.svg      # UseCase диаграмма
 │       └── classdiagram.puml/.png/.svg # Диаграмма классов
