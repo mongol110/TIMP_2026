@@ -192,10 +192,10 @@ QString newtonMethod(double x0, double eps)
         if (std::fabs(dfx) < 1e-12) return "error: derivative too small";
         double x1 = x - fx / dfx;
         if (!std::isfinite(x1)) return "error: diverged";
-        if (std::fabs(x1 - x) < eps) return QString::number(x1, 'f', 10);
+        if (std::fabs(x1 - x) < eps) return QString::number(x1, 'f', 15);
         x = x1;
     }
-    return QString::number(x, 'f', 10);
+    return QString::number(x, 'f', 15);
 }
 
 static bool splitWav(const QByteArray& wav, QByteArray& header, QByteArray& audio)
