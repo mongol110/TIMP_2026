@@ -1,32 +1,42 @@
 @startuml UseCase_Audio
 skinparam actorStyle awesome
+skinparam usecaseBackgroundColor #EEF5FF
+skinparam usecaseBorderColor #3D7EBF
+skinparam actorBorderColor #3D7EBF
+skinparam linetype ortho
+skinparam nodesep 50
+skinparam ranksep 60
+
 title Use Case — TIMP AES/SHA1/Newton/Audio
+
 left to right direction
+
 actor "Пользователь" as User
 actor "Админ" as Admin
+
 rectangle "TIMP Audio System" {
-  package "Доступ" {
-    usecase "Регистрация" as UC_REG
-    usecase "Авторизация" as UC_AUTH
-    usecase "Подключение TCP :34944" as UC_CONN
-  }
-  package "Криптография" {
+
+  package "Криптография и метод" {
     usecase "Шифрование AES" as UC_AE
     usecase "Расшифровка AES" as UC_AD
     usecase "Хеш SHA1" as UC_SHA
+    usecase "Корень методом Ньютона\nf(x)=x^3-x-2" as UC_NEW
   }
-  package "Численный метод" {
-    usecase "Корень методом Ньютона" as UC_NEW
+
+  package "Доступ" {
+    usecase "Подключение TCP :34944" as UC_CONN
+    usecase "Регистрация" as UC_REG
+    usecase "Авторизация" as UC_AUTH
   }
-  package "Стего" {
-    usecase "Внедрить в WAV" as UC_EMB
+
+  package "Стего и инфра" {
+    usecase "Внедрить в WAV\nWAV 44Б, LSB" as UC_EMB
     usecase "Извлечь из WAV" as UC_EXT
-  }
-  package "Инфра" {
     usecase "Лог в SQLite" as UC_LOG
     usecase "Запуск в Docker" as UC_DOC
   }
 }
+
 User --> UC_CONN
 User --> UC_REG
 User --> UC_AUTH
@@ -38,18 +48,12 @@ User --> UC_EMB
 User --> UC_EXT
 Admin --> UC_DOC
 Admin --> UC_LOG
-UC_AE .> UC_CONN : <<include>>
-UC_AD .> UC_CONN : <<include>>
-UC_SHA .> UC_CONN : <<include>>
-UC_NEW .> UC_CONN : <<include>>
-UC_EMB .> UC_CONN : <<include>>
-UC_EXT .> UC_CONN : <<include>>
-note right of UC_NEW
-  f(x)=x^3-x-2
-  x1=x-f/f'
-end note
-note right of UC_EMB
-  WAV 44Б header
-  LSB 1бит/байт
-end note
+
+UC_AE ..> UC_CONN : <<include>>
+UC_AD ..> UC_CONN : <<include>>
+UC_SHA ..> UC_CONN : <<include>>
+UC_NEW ..> UC_CONN : <<include>>
+UC_EMB ..> UC_CONN : <<include>>
+UC_EXT ..> UC_CONN : <<include>>
+
 @enduml
