@@ -1,0 +1,85 @@
+@startuml ClassDiagram_Audio
+skinparam classBackgroundColor #EEF5FF
+skinparam classBorderColor #3D7EBF
+skinparam classHeaderBackgroundColor #3D7EBF
+skinparam classHeaderFontColor #FFFFFF
+title Class Diagram — TIMP AES/SHA1/Newton/Audio
+
+package "EchoServer" {
+  class MyTcpServer <<QObject>> {
+    - mTcpServer : QTcpServer*
+    - mClients : QList<QTcpSocket*>
+    - mBuffers : QMap<QTcpSocket*, QByteArray>
+    - mUsers : QMap<QTcpSocket*, QString>
+    + slotNewConnection() : void
+    + slotServerRead() : void
+    + slotClientDisconnected() : void
+  }
+  class DataBase <<Singleton>> {
+    - m_db : QSqlDatabase
+    - m_opened : bool
+    + {static} instance() : DataBase&
+    + open(path : QString) : bool
+    + registerUser(login, pass) : QString
+    + authUser(login, pass) : QString
+    + log(user, command, result) : void
+  }
+  class "functionsforserver" as FS {
+    + parsing(cmd, user) : QString
+    + aesEncrypt(key, text) : QString
+    + aesDecrypt(key, hex) : QString
+    + sha1Hash(data) : QString
+    + newtonMethod(x0, eps) : QString
+    + audioEmbed(b64wav, msg) : QString
+    + audioExtract(b64wav) : QString
+  }
+  note bottom of FS
+    f(x)=x^3-x-2, f'=3x^2-1
+    AES-128-CBC OpenSSL EVP
+    SHA1 QCryptographicHash
+    WAV LSB: 1 бит/байт после 44Б
+  end note
+}
+
+package "Client" {
+  class TcpClient <<Singleton>> {
+    - m_socket : QTcpSocket*
+    - m_buffer : QByteArray
+    + {static} instance() : TcpClient&
+    + connectTo(host, port) : void
+    + sendLine(line) : void
+  }
+  class MainWindow <<QMainWindow>> {
+    - m_log : QTextEdit*
+    - m_table : QTableWidget*
+    - m_pendingCmd : QString
+    + onRegister() : void
+    + onLogin() : void
+    + onAesEncrypt() : void
+    + onSha1() : void
+    + onNewton() : void
+    + onAudioEmbed() : void
+  }
+  class ConnectionDialog <<QDialog>> {
+    + host() : QString
+    + port() : int
+  }
+}
+
+package "UnitTests" {
+  class FuncTest <<QObject>> {
+    + test_parsing_invalid() : void
+    + test_sha1() : void
+    + test_aes_roundtrip() : void
+    + test_newton() : void
+  }
+}
+
+MyTcpServer ..> FS : uses
+MyTcpServer ..> DataBase : uses
+MainWindow ..> TcpClient : uses
+MainWindow ..> ConnectionDialog : creates
+FuncTest ..> FS : tests
+MyTcpServer --|> QObject
+MainWindow --|> QMainWindow
+@enduml

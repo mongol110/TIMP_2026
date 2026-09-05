@@ -1,0 +1,21 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    container_name: timp_audio_server
+    ports:
+      - "34944:34944"
+    volumes:
+      - server_data:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo 'SHA1|test' | nc -q1 localhost 34944"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  server_data:

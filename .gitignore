@@ -1,0 +1,10 @@
+build-*
+*.o
+*.obj
+Makefile*
+*.pro.user*
+debug/
+release/
+*.db
+*.log
+.vs/
