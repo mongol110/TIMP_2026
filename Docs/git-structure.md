@@ -4,7 +4,7 @@
 Инициализировать в корне проекта:
 
 ```bash
-cd TIMP_AES_AUDIO
+cd TIMP_2026
 git init -b main
 git add .
 git commit -m "feat: audio server+client base (AES/SHA1/Newton/WAV)"

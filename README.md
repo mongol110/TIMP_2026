@@ -1,8 +1,8 @@
 # Проект по дисциплине «Технологии и методы программирования»
 
 **Учебная группа:** XXX-XXX (заглушка)
-**Репозиторий:** [godgg582-ai/TIMP_AES_AUDIO](https://github.com/godgg582-ai/TIMP_AES_AUDIO)
-**Wiki:** [Документация проекта](https://github.com/godgg582-ai/TIMP_AES_AUDIO/blob/main/Docs/Wiki.md)
+**Репозиторий:** [mongol110/TIMP_2026](https://github.com/mongol110/TIMP_2026)
+**Wiki:** [Документация проекта](https://github.com/mongol110/TIMP_2026/blob/main/Docs/Wiki.md)
 
 ---
 
@@ -30,7 +30,7 @@
 ## Структура репозитория
 
 ```
-TIMP_AES_AUDIO/
+TIMP_2026/
 ├── EchoServer/               # Qt TCP-сервер (порт 34944, мультиклинт)
 │   ├── EchoServer.pro
 │   ├── main.cpp
@@ -68,8 +68,8 @@ TIMP_AES_AUDIO/
 ## Быстрый старт (Docker)
 
 ```bash
-git clone https://github.com/godgg582-ai/TIMP_AES_AUDIO.git
-cd TIMP_AES_AUDIO
+git clone https://github.com/mongol110/TIMP_2026.git
+cd TIMP_2026
 docker compose up --build -d
 ```
 
