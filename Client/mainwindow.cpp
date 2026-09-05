@@ -154,8 +154,8 @@ QWidget* MainWindow::buildNewtonTab()
     info->setTextFormat(Qt::RichText);
     auto* form = new QFormLayout;
     m_newtonX0 = new QDoubleSpinBox; m_newtonX0->setRange(-1e6, 1e6); m_newtonX0->setValue(1.5);
-    m_newtonEps = new QLineEdit; m_newtonEps->setText("1e-9");
-    m_newtonEps->setPlaceholderText("1e-9 .. 1, можно 4.444e-07");
+    m_newtonEps = new QDoubleSpinBox; m_newtonEps->setDecimals(10);
+    m_newtonEps->setRange(1e-12, 1.0); m_newtonEps->setValue(1e-9);
     form->addRow("x0:", m_newtonX0);
     form->addRow("eps:", m_newtonEps);
     m_newtonOut = new QLineEdit; m_newtonOut->setReadOnly(true);
@@ -319,10 +319,7 @@ void MainWindow::onAesDecrypt() {
 }
 void MainWindow::onSha1() { sendCommand("SHA1|" + m_shaInput->text()); }
 void MainWindow::onNewton() {
-    bool ok = false;
-    double eps = m_newtonEps->text().trimmed().replace(',', '.').toDouble(&ok);
-    if (!ok) { QMessageBox::warning(this, "Ошибка", "eps: нужно число вида 1e-9."); return; }
-    sendCommand(QString("NEWTON|%1|%2").arg(m_newtonX0->value()).arg(eps, 0, 'g', 12));
+    sendCommand(QString("NEWTON|%1|%2").arg(m_newtonX0->value()).arg(m_newtonEps->value()));
 }
 void MainWindow::onAudioEmbed()
 {

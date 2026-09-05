@@ -64,7 +64,7 @@ private:
     QTextEdit* m_shaOutput = nullptr;
 
     QDoubleSpinBox* m_newtonX0 = nullptr;
-    QLineEdit* m_newtonEps = nullptr; // QLineEdit: спинбокс режет ввод вида 4.4e-07
+    QDoubleSpinBox* m_newtonEps = nullptr;
     QLineEdit* m_newtonOut = nullptr;
 
     QLineEdit* m_audioSrc = nullptr;
