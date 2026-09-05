@@ -71,6 +71,10 @@ void MainWindow::buildUi()
 
     m_statusLabel = new QLabel("Не подключён");
     statusBar()->addPermanentWidget(m_statusLabel);
+    m_authFlag = new QLabel;
+    m_authFlag->setFont(QFont("Segoe UI", 10, QFont::Bold));
+    statusBar()->addWidget(m_authFlag);
+    setLoggedIn(QString());
     auto* btn = new QPushButton("Подключиться");
     statusBar()->addWidget(btn);
     connect(btn, &QPushButton::clicked, this, &MainWindow::onConnectClicked);
@@ -215,12 +219,15 @@ void MainWindow::onConnected()
     auto* s = TcpClient::instance().socket();
     m_statusLabel->setText(QString("Подключён %1:%2").arg(s->peerAddress().toString()).arg(s->peerPort()));
     appendLog("[OK] Подключено. Сначала AUTH/REGISTER.");
+    setLoggedIn(QString());
+    m_authState->setText("Гость (нужен AUTH для функций)");
 }
 
 void MainWindow::onDisconnected()
 {
     m_statusLabel->setText("Не подключён");
     appendLog("[--] Отключено.");
+    setLoggedIn(QString());
 }
 
 void MainWindow::onSocketError()
@@ -241,6 +248,7 @@ void MainWindow::onLine(const QString& line)
                 if (m_pendingCmd.startsWith("AUTH")) {
                     m_user = m_pendingCmd.split('|').value(1);
                     m_authState->setText("Авторизован: " + m_user);
+                    setLoggedIn(m_user);
                 } else {
                     m_authState->setText("Зарегистрирован, теперь AUTH.");
                 }
@@ -320,4 +328,18 @@ void MainWindow::onAudioExtract()
     if (!f.open(QIODevice::ReadOnly)) { QMessageBox::warning(this, "Ошибка", "Не открыть WAV."); return; }
     QString b64 = QString::fromLatin1(f.readAll().toBase64());
     sendCommand("AUDIO_EXTRACT|" + b64, QString("AUDIO_EXTRACT|[%1 b64]").arg(b64.size()));
+}
+
+void MainWindow::setLoggedIn(const QString& user)
+{
+    m_user = user;
+    if (user.isEmpty()) {
+        m_authFlag->setText("○ Гость");
+        m_authFlag->setStyleSheet("color: red;");
+        m_authFlag->setToolTip("Не авторизован — нужен AUTH");
+    } else {
+        m_authFlag->setText("● " + user);
+        m_authFlag->setStyleSheet("color: green;");
+        m_authFlag->setToolTip("Авторизован как " + user);
+    }
 }

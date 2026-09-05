@@ -44,9 +44,11 @@ private:
     void sendCommand(const QString& cmd, const QString& logHint = {});
     void appendLog(const QString& msg);
     void pushTableRow(const QString& cmd, const QString& resp);
+    void setLoggedIn(const QString& user);
 
     QByteArray m_greeting;
     QLabel* m_statusLabel = nullptr;
+    QLabel* m_authFlag = nullptr;
     QTextEdit* m_log = nullptr;
     QTableWidget* m_table = nullptr;
 
